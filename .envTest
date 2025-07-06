@@ -1,0 +1,5 @@
+# NOTE: ambiente di sviluppo
+DEV_ENV=development
+
+# NOTE: url di mongodb
+DB_URI=
