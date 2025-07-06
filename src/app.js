@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 
 import routeTest from './routers/testRouters.js'
+import routeTracks from './routers/tracksRouters.js'
 import { PORT } from './config/portConfig.js'
 import dbConnect from './config/mongoConfig.js'
 
@@ -17,6 +18,7 @@ app.use(express.json())
 app.use(cors())
 
 app.use('/api', routeTest)
+app.use('/api/tracks', routeTracks)
 
 const startServer = async () => {
   try {
