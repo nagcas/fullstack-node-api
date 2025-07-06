@@ -6,7 +6,7 @@ const storageSchema = new Schema(
       type: String
     },
     filename: {
-      type: Number
+      type: String
     }
   },
   {

@@ -1,10 +1,13 @@
 import express from 'express'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import expressListEndpoints from 'express-list-endpoints'
 import dotenv from 'dotenv'
 import cors from 'cors'
 
 import routeTest from './routers/testRouters.js'
 import routeTracks from './routers/tracksRouters.js'
+import routeStorage from './routers/storageRouters.js'
 import { PORT } from './config/portConfig.js'
 import dbConnect from './config/mongoConfig.js'
 
@@ -14,11 +17,19 @@ const app = express()
 
 const DEV_ENV = process.env.DEV_ENV
 
-app.use(express.json())
+// Per ottenere __dirname in ESModules
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
 app.use(cors())
+app.use(express.json())
+
+// Servi i file statici nella cartella "storage"
+app.use(express.static(path.join(__dirname, '../src/storage')))
 
 app.use('/api', routeTest)
 app.use('/api/tracks', routeTracks)
+app.use('/api/storage', routeStorage)
 
 const startServer = async () => {
   try {
