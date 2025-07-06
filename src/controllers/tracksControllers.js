@@ -1,4 +1,6 @@
+import { matchedData } from 'express-validator'
 import Track from '../models/tracksModels.js'
+import handleHttpError from '../utils/handleError.js'
 
 // NOTE: funzione per visualizzare un elenco completo di items
 export const getItems = async (req, res) => {
@@ -19,7 +21,7 @@ export const getItems = async (req, res) => {
       message: 'Lista completa delle tracks'
     })
   } catch (error) {
-    console.error('Errore nel Server')
+    handleHttpError(res, 'Errore nella richiesta')
   }
 }
 
@@ -34,7 +36,8 @@ export const getItem = async (req, res) => {
 // NOTE: funzione per creare un nuovo item
 export const createItem = async (req, res) => {
   try {
-    const { body } = req
+    const body = matchedData(req)
+    // const { body } = req
     console.log(body)
 
     const newTrack = new Track(body)
@@ -47,7 +50,7 @@ export const createItem = async (req, res) => {
       message: 'Track creata correttamente'
     })
   } catch (error) {
-    console.error('Errore nel Server')
+    handleHttpError(res, 'Errore nella richiesta')
   }
 }
 
