@@ -41,4 +41,14 @@ const validatorCreateItem = [
   }
 ]
 
-export default validatorCreateItem
+const validatorGetItem = [
+  check('trackId')
+    .exists()
+    .notEmpty()
+    .isMongoId(),
+  (req, res, next) => {
+    return validateResults(req, res, next)
+  }
+]
+
+export { validatorCreateItem, validatorGetItem }

@@ -27,10 +27,28 @@ export const getItems = async (req, res) => {
 
 // NOTE: funzione per visualizzare un singolo item
 export const getItem = async (req, res) => {
-  res.status(200).json({
-    status: 200,
-    message: 'Visualizza una track'
-  })
+  try {
+    req = matchedData(req)
+    const { trackId } = req
+    console.log(trackId)
+
+    const track = await Track.findById(trackId)
+
+    if (!track) {
+      return res.status(404).json({
+        status: 404,
+        message: 'Track non presente nel database'
+      })
+    }
+
+    res.status(200).json({
+      status: 200,
+      track,
+      message: 'Visualizza una track'
+    })
+  } catch (error) {
+    handleHttpError(res, 'Errore nella richiesta della track singola')
+  }
 }
 
 // NOTE: funzione per creare un nuovo item
@@ -56,16 +74,57 @@ export const createItem = async (req, res) => {
 
 // NOTE: funzione per modificare un singolo item
 export const updateItem = async (req, res) => {
-  res.status(200).json({
-    status: 200,
-    message: 'Track modificata correttamente'
-  })
+  try {
+    const { trackId, ...body } = matchedData(req)
+
+    console.log(trackId)
+    console.log(body)
+
+    const updateTrack = await Track.findOneAndUpdate(
+      { _id: trackId },
+      body,
+      { new: true }
+    )
+
+    console.log(updateTrack)
+
+    if (!updateTrack) {
+      return res
+        .status(404)
+        .json({ message: 'Track non presente nel database' })
+    }
+
+    res.status(201).json({
+      status: 201,
+      updateTrack,
+      message: 'Track modificata correttamente'
+    })
+  } catch (error) {
+    handleHttpError(res, 'Errore nella richiesta')
+  }
 }
 
 // NOTE: funzione per eliminare un singolo item
 export const deleteItem = async (req, res) => {
-  res.status(200).json({
-    status: 200,
-    message: 'Track eliminata correttamente'
-  })
+  try {
+    req = matchedData(req)
+    const { trackId } = req
+    console.log(trackId)
+
+    const track = await Track.findByIdAndDelete(trackId)
+
+    if (!track) {
+      return res.status(404).json({
+        status: 404,
+        message: 'Track non presente nel database'
+      })
+    }
+
+    res.status(200).json({
+      status: 200,
+      message: 'Track eliminata cottettamente'
+    })
+  } catch (error) {
+    handleHttpError(res, 'Errore nella richiesta della track singola')
+  }
 }
