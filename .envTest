@@ -3,3 +3,9 @@ DEV_ENV=development
 
 # NOTE: url di mongodb
 DB_URI=
+
+# NOTE: url pubblica
+PUBLIC_URL=
+
+# NOTE: chiave segreta utilizzata per firmare il token
+JWT_SECRET=

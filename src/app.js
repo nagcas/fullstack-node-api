@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 
 import routeTest from './routers/testRouters.js'
+import routeAuth from './routers/authRouters.js'
 import routeTracks from './routers/tracksRouters.js'
 import routeStorage from './routers/storageRouters.js'
 import { PORT } from './config/portConfig.js'
@@ -28,6 +29,7 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, '../src/storage')))
 
 app.use('/api', routeTest)
+app.use('/api/auth', routeAuth)
 app.use('/api/tracks', routeTracks)
 app.use('/api/storage', routeStorage)
 

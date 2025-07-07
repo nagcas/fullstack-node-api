@@ -14,13 +14,15 @@
   "author": "Gianluca Chiaravalloti",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "3.0.2",
     "cors": "2.8.5",
     "dotenv": "17.0.1",
     "express": "4.21.2",
     "express-list-endpoints": "7.1.1",
     "express-validator": "7.2.1",
+    "jsonwebtoken": "9.0.2",
     "mongoose": "8.16.1",
-    "mongoose-delete": "^1.0.2",
+    "mongoose-delete": "1.0.2",
     "multer": "2.0.1"
   },
   "devDependencies": {
