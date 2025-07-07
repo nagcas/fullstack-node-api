@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose'
+import MongooseDelete from 'mongoose-delete'
 
 const storageSchema = new Schema(
   {
@@ -15,6 +16,8 @@ const storageSchema = new Schema(
     collection: 'storages'
   }
 )
+
+storageSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' })
 
 const Storage = model('storages', storageSchema)
 

@@ -11,14 +11,14 @@ export const getItems = async (req, res) => {
       return res.status(200).json({
         status: 200,
         data,
-        message: 'Nessuna traccia presente nel database'
+        message: 'Nessun items presente nel database'
       })
     }
 
     res.status(200).json({
       status: 200,
       data,
-      message: 'Lista completa delle tracks'
+      message: 'Lista completa items'
     })
   } catch (error) {
     handleHttpError(res, 'Errore nella richiesta')
@@ -37,17 +37,17 @@ export const getItem = async (req, res) => {
     if (!track) {
       return res.status(404).json({
         status: 404,
-        message: 'Track non presente nel database'
+        message: 'Item non presente nel database'
       })
     }
 
     res.status(200).json({
       status: 200,
       track,
-      message: 'Visualizza una track'
+      message: 'Visualizza item'
     })
   } catch (error) {
-    handleHttpError(res, 'Errore nella richiesta della track singola')
+    handleHttpError(res, 'Errore nella richiesta')
   }
 }
 
@@ -65,7 +65,7 @@ export const createItem = async (req, res) => {
     res.status(201).json({
       status: 201,
       track,
-      message: 'Track creata correttamente'
+      message: 'Item creata correttamente'
     })
   } catch (error) {
     handleHttpError(res, 'Errore nella richiesta')
@@ -91,13 +91,13 @@ export const updateItem = async (req, res) => {
     if (!updateTrack) {
       return res
         .status(404)
-        .json({ message: 'Track non presente nel database' })
+        .json({ message: 'Item non presente nel database' })
     }
 
     res.status(201).json({
       status: 201,
       updateTrack,
-      message: 'Track modificata correttamente'
+      message: 'Item modificato correttamente'
     })
   } catch (error) {
     handleHttpError(res, 'Errore nella richiesta')
@@ -111,20 +111,21 @@ export const deleteItem = async (req, res) => {
     const { trackId } = req
     console.log(trackId)
 
-    const track = await Track.findByIdAndDelete(trackId)
+    const track = await Track.delete({ _id: trackId })
 
     if (!track) {
       return res.status(404).json({
         status: 404,
-        message: 'Track non presente nel database'
+        message: 'Item non presente nel database'
       })
     }
 
     res.status(200).json({
       status: 200,
-      message: 'Track eliminata cottettamente'
+      deleted: 1,
+      message: 'Item eliminata cottettamente'
     })
   } catch (error) {
-    handleHttpError(res, 'Errore nella richiesta della track singola')
+    handleHttpError(res, 'Errore nella richiesta')
   }
 }

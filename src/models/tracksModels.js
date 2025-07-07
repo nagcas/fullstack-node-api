@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose'
+import MongooseDelete from 'mongoose-delete'
 
 const tracksSchema = new Schema(
   {
@@ -46,6 +47,8 @@ const tracksSchema = new Schema(
     collection: 'tracks'
   }
 )
+
+tracksSchema.plugin(MongooseDelete, { deletedAt: true, overrideMethods: 'all' })
 
 const Track = model('tracks', tracksSchema)
 
