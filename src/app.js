@@ -1,3 +1,12 @@
+// NOTE: configurazione e avvio del server Express
+// - Importa e configura middleware essenziali: CORS, JSON parser, logging avanzato con morgan-body
+// - Usa un logger personalizzato che invia log sia su file sia a Slack tramite loggerStream
+// - Serve file statici dalla cartella "storage"
+// - Registra le rotte API per test, autenticazione, tracks e storage
+// - Connette a MongoDB tramite dbConnect
+// - Avvia il server sulla porta definita da variabile d'ambiente o config
+// - Stampa a console lo stato del server e la lista degli endpoint disponibili
+// - Gestisce errori critici all’avvio del server
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -11,6 +20,9 @@ import routeTracks from './routers/tracksRouters.js'
 import routeStorage from './routers/storageRouters.js'
 import { PORT } from './config/portConfig.js'
 import dbConnect from './config/mongoConfig.js'
+
+import morganBody from 'morgan-body'
+import { loggerStream } from './utils/hangleLogger.js'
 
 dotenv.config()
 
@@ -27,6 +39,18 @@ app.use(express.json())
 
 // Servi i file statici nella cartella "storage"
 app.use(express.static(path.join(__dirname, '../src/storage')))
+
+morganBody(app, {
+  noColors: true,
+  stream: loggerStream,
+  skip: function (req, res) {
+    return res.statusCode < 400
+  },
+  logRequestBody: true,
+  logResponseBody: true,
+  includeNewLines: true,
+  methods: ['POST', 'PUT', 'DELETE', 'PATCH']
+})
 
 app.use('/api', routeTest)
 app.use('/api/auth', routeAuth)

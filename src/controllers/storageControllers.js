@@ -11,13 +11,16 @@ const __dirname = path.dirname(__filename)
 const MEDIA_PATH = `${__dirname}/../storage`
 
 // NOTE: funzione per creare un singolo item
+// Questa funzione gestisce il caricamento di un file da parte dell'utente.
+// Verifica la presenza del file nella richiesta, lo salva nel database con
+// URL pubblico e nome del file, e restituisce i dati del file appena salvato.
 export const createItem = async (req, res) => {
   try {
     const PUBLIC_URL = process.env.PUBLIC_URL
     const { file } = req
 
     if (!file) {
-      return res.status(400).json({ message: 'Nessun file caricato' })
+      return res.status(400).json({ message: 'Nessun file è stato caricato. Per favore, seleziona un file e riprova.' })
     }
 
     const newStorage = new Storage({
@@ -29,15 +32,18 @@ export const createItem = async (req, res) => {
 
     res.json({
       storage,
-      message: 'File caricato con successo'
+      message: 'Caricamento del file avvenuto con successo.'
     })
   } catch (error) {
     console.error('Errore:', error)
-    handleHttpError(res, 'Errore nella richiesta')
+    handleHttpError(res, "Si è verificato un errore interno del server. Riprova più tardi o contatta l'assistenza se il problema persiste.")
   }
 }
 
 // NOTE: funzione per visualizzare una lista di items
+// Questa funzione recupera tutti gli item presenti nella collezione Storage.
+// Restituisce un array di oggetti (anche vuoto) con un messaggio informativo
+// in base al numero di risultati trovati.
 export const getItems = async (req, res) => {
   try {
     const data = await Storage.find({})
@@ -46,21 +52,24 @@ export const getItems = async (req, res) => {
       return res.status(200).json({
         status: 200,
         data,
-        message: 'Nessun items presente nel database'
+        message: 'Elemento richiesto non trovato. Potrebbe essere stato eliminato o non esiste.'
       })
     }
 
     res.status(200).json({
       status: 200,
       data,
-      message: 'Lista completa items'
+      message: 'Lista completa degli elementi disponibili.'
     })
   } catch (error) {
-    handleHttpError(res, 'Errore nella richiesta')
+    handleHttpError(res, "Si è verificato un errore interno del server. Riprova più tardi o contatta l'assistenza se il problema persiste.")
   }
 }
 
 // NOTE: funzione per visualizzare un singolo item
+// Questa funzione recupera un singolo item dal database a partire
+// dal suo ID (`storageId`) validato. Se presente, restituisce i dati dell’item,
+// altrimenti risponde con un errore 404.
 export const getItem = async (req, res) => {
   try {
     req = matchedData(req)
@@ -72,21 +81,24 @@ export const getItem = async (req, res) => {
     if (!storage) {
       return res.status(404).json({
         status: 404,
-        message: 'Item non presente nel database'
+        message: 'Elemento richiesto non trovato. Potrebbe essere stato eliminato o non esiste.'
       })
     }
 
     res.status(200).json({
       status: 200,
       storage,
-      message: 'Visualizza item'
+      message: 'Elemento recuperato con successo.'
     })
   } catch (error) {
-    handleHttpError(res, 'Errore nella richiesta')
+    handleHttpError(res, "Si è verificato un errore interno del server. Riprova più tardi o contatta l'assistenza se il problema persiste.")
   }
 }
 
 // NOTE: funzione per eliminare un singolo item
+// Questa funzione elimina un item dal database e rimuove anche
+// fisicamente il file associato dal file system. Verifica l’esistenza dell’item,
+// cancella il documento da MongoDB e poi il file dal disco.
 export const deleteItem = async (req, res) => {
   try {
     const { storageId } = matchedData(req)
@@ -97,7 +109,7 @@ export const deleteItem = async (req, res) => {
     if (!storage) {
       return res.status(404).json({
         status: 404,
-        message: 'Item non presente nel database'
+        message: 'Elemento richiesto non trovato. Potrebbe essere stato eliminato o non esiste.'
       })
     }
 
@@ -111,10 +123,10 @@ export const deleteItem = async (req, res) => {
       status: 200,
       filepath,
       deleted: 1,
-      message: 'Item eliminato cottettamente'
+      message: 'Elemento eliminato con successo.'
     })
   } catch (error) {
     console.log(error.message)
-    handleHttpError(res, 'Errore nella richiesta')
+    handleHttpError(res, "Si è verificato un errore interno del server. Riprova più tardi o contatta l'assistenza se il problema persiste.")
   }
 }

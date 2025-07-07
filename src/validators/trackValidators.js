@@ -1,3 +1,9 @@
+// NOTE: middleware di validazione per le richieste relative alle tracce (tracks)
+// - validatorCreateItem: valida i campi richiesti per creare una nuova traccia,
+//   verificando che ogni campo obbligatorio esista e non sia vuoto,
+//   incluso il controllo che mediaId sia un ID Mongo valido.
+// - validatorGetItem: valida che il parametro trackId sia presente, non vuoto e sia un ID Mongo valido.
+// Entrambi usano validateResults per la gestione centralizzata degli errori di validazione.
 import { check } from 'express-validator'
 import validateResults from '../utils/handleValidator.js'
 

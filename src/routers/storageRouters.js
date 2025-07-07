@@ -1,3 +1,11 @@
+// NOTE: router per la gestione dei file di storage
+// Questo modulo definisce le rotte per operazioni CRUD relative ai file salvati nel backend:
+// - caricamento di un file (POST /)
+// - recupero della lista di tutti i file (GET /)
+// - recupero di un singolo file tramite ID (GET /:storageId)
+// - eliminazione di un file tramite ID (DELETE /:storageId)
+// Tutte le rotte sono protette dal middleware di autenticazione `authMiddleware`.
+// È utilizzato un middleware per gestire l’upload dei file (`uploadMiddleware`).
 import express from 'express'
 import uploadMiddleware from '../utils/handleStorage.js'
 import { createItem, deleteItem, getItem, getItems } from '../controllers/storageControllers.js'

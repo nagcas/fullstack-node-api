@@ -1,3 +1,14 @@
+// NOTE: middleware di validazione per le richieste utente
+// - validatorRegister: valida i dati di registrazione, controllando che
+//   nome, età, password ed email siano presenti e corretti, inclusi:
+//   - nome tra 3 e 99 caratteri
+//   - età numerica tra 18 e 60 anni
+//   - password tra 3 e 15 caratteri
+//   - email valida
+// - validatorLogin: valida i dati di login, assicurandosi che password e email
+//   siano presenti e formattate correttamente
+// - validatorGetItem: valida che userId sia un ID MongoDB valido e presente
+// Ogni validator utilizza validateResults per gestire gli errori.
 import { check } from 'express-validator'
 import validateResults from '../utils/handleValidator.js'
 

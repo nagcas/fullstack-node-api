@@ -1,3 +1,8 @@
+// NOTE: middleware per il caricamento di file usando Multer
+// Configura lo storage locale con:
+// - destinazione dei file caricati nella cartella "../storage" relativa al file corrente
+// - nomi file generati dinamicamente nel formato "file-TIMESTAMP.ESTENSIONE"
+// Esporta un middleware Multer configurato per l'uso nelle rotte di upload.
 import multer from 'multer'
 import path from 'path'
 import { fileURLToPath } from 'url'

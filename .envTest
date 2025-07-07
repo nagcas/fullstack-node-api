@@ -9,3 +9,6 @@ PUBLIC_URL=
 
 # NOTE: chiave segreta utilizzata per firmare il token
 JWT_SECRET=
+
+# NOTE: Webhook url
+SLACK_WEBHOOK=

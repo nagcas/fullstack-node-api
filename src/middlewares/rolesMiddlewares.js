@@ -1,3 +1,8 @@
+// NOTE: middleware per il controllo dei ruoli utenti
+// Questa funzione factory restituisce un middleware che verifica se l'utente autenticato
+// possiede almeno uno dei ruoli richiesti per accedere alla risorsa.
+// Se il ruolo non è autorizzato, risponde con errore 403 (Forbidden).
+// In caso contrario, passa il controllo al middleware successivo.
 import handleHttpError from '../utils/handleError.js'
 
 export const checkRol = (roles) => async (req, res, next) => {
