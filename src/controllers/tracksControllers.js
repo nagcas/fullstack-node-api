@@ -5,6 +5,7 @@ import handleHttpError from '../utils/handleError.js'
 // NOTE: funzione per visualizzare un elenco completo di items
 export const getItems = async (req, res) => {
   try {
+    const user = req.user
     const data = await Track.find({})
 
     if (data.length === 0) {
@@ -18,6 +19,7 @@ export const getItems = async (req, res) => {
     res.status(200).json({
       status: 200,
       data,
+      user,
       message: 'Lista completa items'
     })
   } catch (error) {

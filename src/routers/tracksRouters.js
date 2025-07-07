@@ -2,11 +2,12 @@ import express from 'express'
 import { createItem, deleteItem, getItem, getItems, updateItem } from '../controllers/tracksControllers.js'
 import { validatorCreateItem, validatorGetItem } from '../validators/trackValidators.js'
 import customHeader from '../middlewares/customHeader.js'
+import { authMiddleware } from '../middlewares/sessionMiddlewares.js'
 
 const router = express.Router()
 
 // NOTE: route [get] per visualizzare una lista completa di items
-router.get('/', getItems)
+router.get('/', authMiddleware, getItems)
 
 // NOTE: route [get] per visualizzare un singolo item
 router.get('/:trackId', validatorGetItem, getItem)

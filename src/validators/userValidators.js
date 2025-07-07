@@ -9,7 +9,13 @@ const validatorRegister = [
   check('age')
     .exists()
     .notEmpty()
-    .isNumeric(),
+    .isNumeric()
+    .custom((value, { req }) => {
+      if (value < 18 || value > 60) {
+        throw new Error("L'età deve essere compresa tra 18 e 60")
+      }
+      return true
+    }),
   check('password')
     .exists()
     .notEmpty()
